@@ -1,0 +1,40 @@
+8
+
+dir
+11
+svn+ssh://jugend@rubyforge.org/var/svn/common-pool/trunk/test
+svn+ssh://jugend@rubyforge.org/var/svn/common-pool
+
+
+
+2007-05-15T19:59:42.685248Z
+7
+jugend
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+e0ce2131-1701-43a0-bdb9-b71aaea38e0d
+
+common_pool_test.rb
+file
+
+
+
+
+2007-05-16T02:11:07.000000Z
+be067ba7025563000fc7142bdb948086
+2007-05-15T19:59:42.685248Z
+7
+jugend
+

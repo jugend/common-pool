@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: CommonPoolTest</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">CommonPoolTest</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../files/test/common_pool_test_rb.html">
+                test/common_pool_test.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                Test::Unit::TestCase
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000008">create_pool</a>&nbsp;&nbsp;
+      <a href="#M000007">test_check_max_idle</a>&nbsp;&nbsp;
+      <a href="#M000006">test_check_min_idle</a>&nbsp;&nbsp;
+      <a href="#M000002">test_first_in_first_out</a>&nbsp;&nbsp;
+      <a href="#M000001">test_get_and_release_session_pool</a>&nbsp;&nbsp;
+      <a href="#M000005">test_invalidate</a>&nbsp;&nbsp;
+      <a href="#M000003">test_max_active_reached</a>&nbsp;&nbsp;
+      <a href="#M000004">test_timeout_reached</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+    <div id="includes">
+      <h3 class="section-bar">Included Modules</h3>
+
+      <div id="includes-list">
+        <span class="include-name"><a href="CommonPool.html">CommonPool</a></span>
+      </div>
+    </div>
+
+    <div id="section">
+
+    <div id="class-list">
+      <h3 class="section-bar">Classes and Modules</h3>
+
+      Class <a href="CommonPoolTest/TestDataSource.html" class="link">CommonPoolTest::TestDataSource</a><br />
+
+    </div>
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000007" class="method-detail">
+        <a name="M000007"></a>
+
+        <div class="method-heading">
+          <a href="#M000007" class="method-signature">
+          <span class="method-name">test_check_max_idle</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000007-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000007-source">
+<pre>
+     <span class="ruby-comment cmt"># File test/common_pool_test.rb, line 122</span>
+122:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_check_max_idle</span>
+123:     <span class="ruby-identifier">pool</span> = <span class="ruby-identifier">create_pool</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">config</span><span class="ruby-operator">|</span>
+124:       <span class="ruby-identifier">config</span>.<span class="ruby-identifier">min_idle</span> = <span class="ruby-value">0</span>
+125:       <span class="ruby-identifier">config</span>.<span class="ruby-identifier">max_idle</span> = <span class="ruby-value">2</span>
+126:       <span class="ruby-identifier">config</span>.<span class="ruby-identifier">idle_check_interval</span> = <span class="ruby-value">60</span>
+127:     <span class="ruby-keyword kw">end</span>
+128:     
+129:     <span class="ruby-identifier">a</span> = <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">borrow_object</span>
+130:     <span class="ruby-identifier">b</span> = <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">borrow_object</span>
+131:     <span class="ruby-identifier">c</span> = <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">borrow_object</span>
+132:     
+133:     <span class="ruby-comment cmt"># idle will keep up to 2</span>
+134:     <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">return_object</span>(<span class="ruby-identifier">a</span>)
+135:     <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">return_object</span>(<span class="ruby-identifier">b</span>)
+136:     <span class="ruby-identifier">assert_equal</span> <span class="ruby-value">2</span>, <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">idle_list</span>.<span class="ruby-identifier">size</span>
+137:     
+138:     <span class="ruby-comment cmt"># throw away no 3</span>
+139:     <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">return_object</span>(<span class="ruby-identifier">c</span>)
+140:     <span class="ruby-identifier">assert_equal</span> <span class="ruby-value">2</span>, <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">idle_list</span>.<span class="ruby-identifier">size</span>
+141:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000006" class="method-detail">
+        <a name="M000006"></a>
+
+        <div class="method-heading">
+          <a href="#M000006" class="method-signature">
+          <span class="method-name">test_check_min_idle</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000006-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000006-source">
+<pre>
+     <span class="ruby-comment cmt"># File test/common_pool_test.rb, line 108</span>
+108:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_check_min_idle</span>
+109:     <span class="ruby-identifier">pool</span> = <span class="ruby-identifier">create_pool</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">config</span><span class="ruby-operator">|</span>
+110:       <span class="ruby-identifier">config</span>.<span class="ruby-identifier">min_idle</span> = <span class="ruby-value">2</span>
+111:       <span class="ruby-identifier">config</span>.<span class="ruby-identifier">idle_check_interval</span> = <span class="ruby-value">60</span>
+112:     <span class="ruby-keyword kw">end</span>
+113:         
+114:     <span class="ruby-comment cmt"># sleep to let the pool populate</span>
+115:     <span class="ruby-keyword kw">until</span> <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">idle_check_status</span>.<span class="ruby-identifier">match</span>(<span class="ruby-regexp re">/Sleeping/</span>)
+116:       <span class="ruby-identifier">sleep</span> <span class="ruby-value">2</span>
+117:     <span class="ruby-keyword kw">end</span>
+118:     
+119:     <span class="ruby-identifier">assert_equal</span> <span class="ruby-value">2</span>, <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">idle_list</span>.<span class="ruby-identifier">size</span>
+120:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000002" class="method-detail">
+        <a name="M000002"></a>
+
+        <div class="method-heading">
+          <a href="#M000002" class="method-signature">
+          <span class="method-name">test_first_in_first_out</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000002-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000002-source">
+<pre>
+    <span class="ruby-comment cmt"># File test/common_pool_test.rb, line 46</span>
+46:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_first_in_first_out</span>
+47:     <span class="ruby-identifier">pool</span> = <span class="ruby-identifier">create_pool</span>
+48:     <span class="ruby-identifier">session_a</span> = <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">borrow_object</span>
+49:     <span class="ruby-identifier">session_b</span> = <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">borrow_object</span>
+50:     
+51:     <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">return_object</span>(<span class="ruby-identifier">session_b</span>)
+52:     <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">return_object</span>(<span class="ruby-identifier">session_a</span>)
+53:     
+54:     <span class="ruby-identifier">session_new</span> = <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">borrow_object</span>
+55:     <span class="ruby-identifier">assert_equal</span> <span class="ruby-identifier">session_b</span>, <span class="ruby-identifier">session_new</span>
+56:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000001" class="method-detail">
+        <a name="M000001"></a>
+
+        <div class="method-heading">
+          <a href="#M000001" class="method-signature">
+          <span class="method-name">test_get_and_release_session_pool</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000001-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000001-source">
+<pre>
+    <span class="ruby-comment cmt"># File test/common_pool_test.rb, line 29</span>
+29:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_get_and_release_session_pool</span>
+30:     <span class="ruby-comment cmt"># test get sessions from pool</span>
+31:     <span class="ruby-identifier">pool</span> = <span class="ruby-identifier">create_pool</span>
+32:   
+33:     <span class="ruby-identifier">session_a</span> = <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">borrow_object</span>
+34:     <span class="ruby-identifier">session_b</span> = <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">borrow_object</span>
+35:     
+36:     <span class="ruby-identifier">assert_not_equal</span> <span class="ruby-identifier">session_a</span>, <span class="ruby-identifier">session_b</span>
+37:     <span class="ruby-identifier">assert_equal</span> <span class="ruby-value">2</span>, <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">active_list</span>.<span class="ruby-identifier">size</span>
+38:     <span class="ruby-identifier">assert_equal</span> <span class="ruby-value">0</span>, <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">idle_list</span>.<span class="ruby-identifier">size</span>
+39:     
+40:     <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">return_object</span>(<span class="ruby-identifier">session_a</span>)
+41:     <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">return_object</span>(<span class="ruby-identifier">session_b</span>)
+42:     <span class="ruby-identifier">assert_equal</span> <span class="ruby-value">0</span>, <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">active_list</span>.<span class="ruby-identifier">size</span>
+43:     <span class="ruby-identifier">assert_equal</span> <span class="ruby-value">2</span>, <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">idle_list</span>.<span class="ruby-identifier">size</span>
+44:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000005" class="method-detail">
+        <a name="M000005"></a>
+
+        <div class="method-heading">
+          <a href="#M000005" class="method-signature">
+          <span class="method-name">test_invalidate</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000005-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000005-source">
+<pre>
+     <span class="ruby-comment cmt"># File test/common_pool_test.rb, line 87</span>
+ 87:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_invalidate</span>
+ 88:     <span class="ruby-identifier">pool</span> = <span class="ruby-identifier">create_pool</span>
+ 89:     <span class="ruby-identifier">session_a</span> = <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">borrow_object</span>
+ 90:     <span class="ruby-identifier">session_b</span> = <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">borrow_object</span>
+ 91:     
+ 92:     <span class="ruby-identifier">assert_equal</span> <span class="ruby-value">2</span>, <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">active_list</span>.<span class="ruby-identifier">size</span>
+ 93:     <span class="ruby-identifier">assert_equal</span> <span class="ruby-value">0</span>, <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">idle_list</span>.<span class="ruby-identifier">size</span>
+ 94:     
+ 95:     <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">invalidate_object</span>(<span class="ruby-identifier">session_a</span>)
+ 96:     <span class="ruby-identifier">assert_equal</span> <span class="ruby-value">1</span>, <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">active_list</span>.<span class="ruby-identifier">size</span>
+ 97:     <span class="ruby-identifier">assert_equal</span> <span class="ruby-value">0</span>, <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">idle_list</span>.<span class="ruby-identifier">size</span>
+ 98:     
+ 99:     <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">return_object</span>(<span class="ruby-identifier">session_b</span>)
+100:     <span class="ruby-identifier">assert_equal</span> <span class="ruby-value">0</span>, <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">active_list</span>.<span class="ruby-identifier">size</span>
+101:     <span class="ruby-identifier">assert_equal</span> <span class="ruby-value">1</span>, <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">idle_list</span>.<span class="ruby-identifier">size</span>
+102:     
+103:     <span class="ruby-identifier">session_new</span> = <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">borrow_object</span>
+104:     <span class="ruby-identifier">assert_equal</span> <span class="ruby-identifier">session_new</span>, <span class="ruby-identifier">session_b</span>
+105:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000003" class="method-detail">
+        <a name="M000003"></a>
+
+        <div class="method-heading">
+          <a href="#M000003" class="method-signature">
+          <span class="method-name">test_max_active_reached</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000003-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000003-source">
+<pre>
+    <span class="ruby-comment cmt"># File test/common_pool_test.rb, line 58</span>
+58:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_max_active_reached</span>
+59:     <span class="ruby-identifier">pool</span> = <span class="ruby-identifier">create_pool</span>    
+60:     <span class="ruby-keyword kw">until</span> <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">active_list</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">config</span>.<span class="ruby-identifier">max_active</span>
+61:       <span class="ruby-identifier">obj</span> = <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">borrow_object</span>
+62:     <span class="ruby-keyword kw">end</span>
+63:     
+64:     <span class="ruby-keyword kw">begin</span>
+65:       <span class="ruby-comment cmt"># max active reached, relase object to retrieve a new one</span>
+66:       <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">return_object</span>(<span class="ruby-identifier">obj</span>)
+67:       <span class="ruby-identifier">wait_obj</span> = <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">borrow_object</span>
+68:       <span class="ruby-identifier">assert_equal</span> <span class="ruby-identifier">obj</span>, <span class="ruby-identifier">wait_obj</span>
+69:     <span class="ruby-keyword kw">end</span>
+70:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000004" class="method-detail">
+        <a name="M000004"></a>
+
+        <div class="method-heading">
+          <a href="#M000004" class="method-signature">
+          <span class="method-name">test_timeout_reached</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000004-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000004-source">
+<pre>
+    <span class="ruby-comment cmt"># File test/common_pool_test.rb, line 72</span>
+72:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_timeout_reached</span>
+73:     <span class="ruby-identifier">pool</span> = <span class="ruby-identifier">create_pool</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">config</span><span class="ruby-operator">|</span>
+74:       <span class="ruby-identifier">config</span>.<span class="ruby-identifier">timeout</span> = <span class="ruby-value">1</span>
+75:     <span class="ruby-keyword kw">end</span>
+76:     
+77:     <span class="ruby-keyword kw">until</span> <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">active_list</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">config</span>.<span class="ruby-identifier">max_active</span>
+78:       <span class="ruby-identifier">obj</span> = <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">borrow_object</span>
+79:     <span class="ruby-keyword kw">end</span>
+80: 
+81:     <span class="ruby-comment cmt"># max active reached wait till timeout</span>
+82:     <span class="ruby-identifier">assert_raise</span>(<span class="ruby-constant">CommonPoolError</span>) <span class="ruby-keyword kw">do</span>
+83:       <span class="ruby-identifier">wait_obj</span> = <span class="ruby-identifier">pool</span>.<span class="ruby-identifier">borrow_object</span>
+84:     <span class="ruby-keyword kw">end</span>
+85:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Protected Instance methods</h3>
+
+      <div id="method-M000008" class="method-detail">
+        <a name="M000008"></a>
+
+        <div class="method-heading">
+          <a href="#M000008" class="method-signature">
+          <span class="method-name">create_pool</span><span class="method-args">() {|config if block_given?| ...}</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000008-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000008-source">
+<pre>
+     <span class="ruby-comment cmt"># File test/common_pool_test.rb, line 163</span>
+163:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create_pool</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">proc</span>)
+164:       <span class="ruby-identifier">pool</span> = <span class="ruby-constant">ObjectPool</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">TestDataSource</span>.<span class="ruby-identifier">new</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">config</span><span class="ruby-operator">|</span>
+165:         <span class="ruby-identifier">config</span>.<span class="ruby-identifier">logger</span> = <span class="ruby-constant">Logger</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">STDOUT</span>)
+166:         <span class="ruby-keyword kw">yield</span> <span class="ruby-identifier">config</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block_given?</span>        
+167:       <span class="ruby-keyword kw">end</span>
+168:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

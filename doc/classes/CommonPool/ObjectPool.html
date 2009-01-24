@@ -1,0 +1,839 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: CommonPool::ObjectPool</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">CommonPool::ObjectPool</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/lib/common_pool_rb.html">
+                lib/common_pool.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                Object
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+First in, first out object pooling implementation.
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000029">add_to_idle_list</a>&nbsp;&nbsp;
+      <a href="#M000017">borrow_object</a>&nbsp;&nbsp;
+      <a href="#M000031">check_idle</a>&nbsp;&nbsp;
+      <a href="#M000030">check_min_idle</a>&nbsp;&nbsp;
+      <a href="#M000020">clear</a>&nbsp;&nbsp;
+      <a href="#M000015">configure</a>&nbsp;&nbsp;
+      <a href="#M000028">create_with_timestamp</a>&nbsp;&nbsp;
+      <a href="#M000033">idle_check_status=</a>&nbsp;&nbsp;
+      <a href="#M000019">invalidate_object</a>&nbsp;&nbsp;
+      <a href="#M000027">logger</a>&nbsp;&nbsp;
+      <a href="#M000021">max_active=</a>&nbsp;&nbsp;
+      <a href="#M000014">new</a>&nbsp;&nbsp;
+      <a href="#M000024">restart_check_idle_thread</a>&nbsp;&nbsp;
+      <a href="#M000018">return_object</a>&nbsp;&nbsp;
+      <a href="#M000016">start</a>&nbsp;&nbsp;
+      <a href="#M000022">start_check_idle_thread</a>&nbsp;&nbsp;
+      <a href="#M000025">status_info</a>&nbsp;&nbsp;
+      <a href="#M000023">stop_idle_check_thread</a>&nbsp;&nbsp;
+      <a href="#M000026">valid_idle_object?</a>&nbsp;&nbsp;
+      <a href="#M000032">within_max_idle_time?</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+    <div id="attribute-list">
+      <h3 class="section-bar">Attributes</h3>
+
+      <div class="name-list">
+        <table>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">active_list</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">config</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">data_source</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">idle_check_status</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">idle_check_thread</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">idle_list</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        </table>
+      </div>
+    </div>
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000014" class="method-detail">
+        <a name="M000014"></a>
+
+        <div class="method-heading">
+          <a href="#M000014" class="method-signature">
+          <span class="method-name">new</span><span class="method-args">(data_source = nil) {|self.config if block_given?| ...}</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Initialize pool instance with default configuration options. Override
+config as a parameter passed to the block.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000014-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000014-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/common_pool.rb, line 112</span>
+112:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">data_source</span> = <span class="ruby-keyword kw">nil</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">proc</span>)
+113:       <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-value str">&quot;Data source is required.&quot;</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">data_source</span>      
+114:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">config</span> = <span class="ruby-constant">Configuration</span>.<span class="ruby-identifier">new</span>
+115:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">data_source</span> = <span class="ruby-identifier">data_source</span>
+116:       <span class="ruby-ivar">@active_list</span>          = {}
+117:       <span class="ruby-ivar">@idle_list</span>          = []
+118:       <span class="ruby-ivar">@idle_check_status</span>  = <span class="ruby-value str">&quot;Not Running&quot;</span>
+119:       <span class="ruby-ivar">@mutex</span>              = <span class="ruby-constant">Mutex</span>.<span class="ruby-identifier">new</span>
+120:       <span class="ruby-ivar">@cond</span>               = <span class="ruby-constant">ConditionVariable</span>.<span class="ruby-identifier">new</span>
+121:       
+122:       <span class="ruby-keyword kw">yield</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">config</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block_given?</span>
+123:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">start_check_idle_thread</span>
+124:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000017" class="method-detail">
+        <a name="M000017"></a>
+
+        <div class="method-heading">
+          <a href="#M000017" class="method-signature">
+          <span class="method-name">borrow_object</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Borrow object from the pool. If max number of active objects reached,
+<tt>CommonPoolErrror</tt> will be thrown.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000017-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000017-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/common_pool.rb, line 138</span>
+138:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">borrow_object</span>
+139:       <span class="ruby-ivar">@mutex</span>.<span class="ruby-identifier">synchronize</span> {
+140:         <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@idle_list</span>.<span class="ruby-identifier">empty?</span>
+141:           <span class="ruby-identifier">result</span> = <span class="ruby-ivar">@idle_list</span>.<span class="ruby-identifier">shift</span>
+142:           
+143:         <span class="ruby-keyword kw">elsif</span> <span class="ruby-ivar">@active_list</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&lt;</span> <span class="ruby-ivar">@config</span>.<span class="ruby-identifier">max_active</span>
+144:           <span class="ruby-identifier">result</span> = <span class="ruby-identifier">create_with_timestamp</span>
+145:           
+146:         <span class="ruby-keyword kw">elsif</span> <span class="ruby-ivar">@active_list</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-ivar">@config</span>.<span class="ruby-identifier">max_active</span>
+147:           <span class="ruby-identifier">raise</span> <span class="ruby-constant">CommonPoolError</span>, <span class="ruby-value str">&quot;Max number of %d active objects reached.&quot;</span> <span class="ruby-operator">%</span> <span class="ruby-ivar">@config</span>.<span class="ruby-identifier">max_active</span>
+148:           
+149:         <span class="ruby-keyword kw">else</span>
+150:           <span class="ruby-keyword kw">begin</span>
+151:             <span class="ruby-identifier">timeout</span>(<span class="ruby-ivar">@config</span>.<span class="ruby-identifier">timeout</span>){ <span class="ruby-ivar">@cond</span>.<span class="ruby-identifier">wait</span>(<span class="ruby-ivar">@mutex</span>) }
+152:           <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">TimeoutError</span>
+153:             <span class="ruby-identifier">raise</span> <span class="ruby-constant">TimeoutError</span>, <span class="ruby-node">&quot;#{@config.timeout} seconds request timeout reached.&quot;</span>
+154:           <span class="ruby-keyword kw">end</span>
+155:           <span class="ruby-identifier">result</span> = <span class="ruby-ivar">@idle_list</span>.<span class="ruby-identifier">shift</span>
+156:         <span class="ruby-keyword kw">end</span>
+157:         <span class="ruby-ivar">@active_list</span>.<span class="ruby-identifier">store</span>(<span class="ruby-identifier">result</span>[<span class="ruby-value">1</span>].<span class="ruby-identifier">__id__</span>, <span class="ruby-identifier">result</span>)
+158:         
+159:         <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;* Get #{result[1]}&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">logger</span>
+160:         <span class="ruby-identifier">result</span>[<span class="ruby-value">1</span>]
+161:       }
+162:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000020" class="method-detail">
+        <a name="M000020"></a>
+
+        <div class="method-heading">
+          <a href="#M000020" class="method-signature">
+          <span class="method-name">clear</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Clear object pool, set the idle list and used list to empty.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000020-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000020-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/common_pool.rb, line 185</span>
+185:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">clear</span>()
+186:       <span class="ruby-ivar">@mutex</span>.<span class="ruby-identifier">synchronize</span> {
+187:         <span class="ruby-ivar">@idle_list</span> = []
+188:         <span class="ruby-ivar">@active_list</span> = {}
+189:       }
+190:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000015" class="method-detail">
+        <a name="M000015"></a>
+
+        <div class="method-heading">
+          <a href="#M000015" class="method-signature">
+          <span class="method-name">configure</span><span class="method-args">() {|self.config| ...}</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Configure pool instance after initialization.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000015-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000015-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/common_pool.rb, line 127</span>
+127:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">configure</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">proc</span>)
+128:       <span class="ruby-keyword kw">yield</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">config</span> 
+129:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">start_check_idle_thread</span>
+130:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000019" class="method-detail">
+        <a name="M000019"></a>
+
+        <div class="method-heading">
+          <a href="#M000019" class="method-signature">
+          <span class="method-name">invalidate_object</span><span class="method-args">(object)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Invalidate object
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000019-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000019-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/common_pool.rb, line 176</span>
+176:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">invalidate_object</span>(<span class="ruby-identifier">object</span>)
+177:       <span class="ruby-ivar">@mutex</span>.<span class="ruby-identifier">synchronize</span> {
+178:         <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;* Invalidate #{object}&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">logger</span>
+179:         <span class="ruby-ivar">@active_list</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">object</span>.<span class="ruby-identifier">__id__</span>)
+180:         <span class="ruby-keyword kw">nil</span>
+181:       }
+182:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000021" class="method-detail">
+        <a name="M000021"></a>
+
+        <div class="method-heading">
+          <a href="#M000021" class="method-signature">
+          <span class="method-name">max_active=</span><span class="method-args">(size)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Reset the max active objects in the pool.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000021-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000021-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/common_pool.rb, line 193</span>
+193:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">max_active=</span>(<span class="ruby-identifier">size</span>)
+194:       <span class="ruby-ivar">@mutex</span>.<span class="ruby-identifier">synchronize</span> {
+195:         <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@idle_list</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@active_list</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">size</span>
+196:           <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-value str">&quot;Cannot change max size to %d. There are objects over the size.&quot;</span> <span class="ruby-operator">%</span> <span class="ruby-identifier">size</span>
+197:         <span class="ruby-keyword kw">end</span>
+198:         <span class="ruby-ivar">@config</span>.<span class="ruby-identifier">max_active</span> = <span class="ruby-identifier">size</span>
+199:       }
+200:       <span class="ruby-identifier">size</span>
+201:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000024" class="method-detail">
+        <a name="M000024"></a>
+
+        <div class="method-heading">
+          <a href="#M000024" class="method-signature">
+          <span class="method-name">restart_check_idle_thread</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Restart idle check thread
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000024-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000024-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/common_pool.rb, line 249</span>
+249:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">restart_check_idle_thread</span>
+250:       <span class="ruby-identifier">stop_idle_check_thread</span>
+251:       <span class="ruby-identifier">start_idle_check_thread</span>
+252:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000018" class="method-detail">
+        <a name="M000018"></a>
+
+        <div class="method-heading">
+          <a href="#M000018" class="method-signature">
+          <span class="method-name">return_object</span><span class="method-args">(object)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Return object back to the pool.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000018-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000018-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/common_pool.rb, line 165</span>
+165:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">return_object</span>(<span class="ruby-identifier">object</span>)
+166:       <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;* Return #{object}&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">logger</span>
+167:       <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">object</span>.<span class="ruby-identifier">nil?</span>
+168:       <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@active_list</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">object</span>.<span class="ruby-identifier">__id__</span>)
+169:         <span class="ruby-identifier">add_to_idle_list</span>(<span class="ruby-identifier">object</span>)
+170:       <span class="ruby-keyword kw">else</span>
+171:         <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Session #{object} not returned, coz has been invalidated from used list.&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">logger</span>
+172:       <span class="ruby-keyword kw">end</span>
+173:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000016" class="method-detail">
+        <a name="M000016"></a>
+
+        <div class="method-heading">
+          <a href="#M000016" class="method-signature">
+          <span class="method-name">start</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Alias for <tt>check_idle_thread</tt>.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000016-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000016-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/common_pool.rb, line 133</span>
+133:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">start</span>
+134:       <span class="ruby-identifier">start_check_idle_thread</span>
+135:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000022" class="method-detail">
+        <a name="M000022"></a>
+
+        <div class="method-heading">
+          <a href="#M000022" class="method-signature">
+          <span class="method-name">start_check_idle_thread</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Start check idle objects thread, will only run if
+<tt>idle_check_interval</tt> is greater than 0.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000022-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000022-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/common_pool.rb, line 204</span>
+204:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">start_check_idle_thread</span>
+205:       <span class="ruby-ivar">@mutex</span>.<span class="ruby-identifier">synchronize</span> {
+206:         <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-ivar">@config</span>.<span class="ruby-identifier">idle_check_interval</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span> <span class="ruby-keyword kw">and</span> <span class="ruby-ivar">@idle_check_thread</span>.<span class="ruby-identifier">nil?</span>
+207:         <span class="ruby-ivar">@idle_check_status</span> = <span class="ruby-value str">&quot;Checking...&quot;</span>
+208:         
+209:         <span class="ruby-ivar">@idle_check_thread</span> = <span class="ruby-constant">Thread</span>.<span class="ruby-identifier">new</span> <span class="ruby-keyword kw">do</span>
+210:           <span class="ruby-identifier">loop</span> <span class="ruby-keyword kw">do</span>
+211:             <span class="ruby-identifier">thread_id</span> = <span class="ruby-ivar">@idle_check_thread</span>.<span class="ruby-identifier">__id__</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@idle_check_thread</span>
+212:             
+213:             <span class="ruby-keyword kw">begin</span>
+214:               <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;&gt;&gt; Starting idle objects check (Object ID: #{self.__id__}, Thread ID: #{thread_id})&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">logger</span>
+215:               <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-value str">&quot;Status: &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">status_info</span>.<span class="ruby-identifier">map</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">k</span>,<span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-node">&quot;#{k}=#{v}&quot;</span>}.<span class="ruby-identifier">join</span>(<span class="ruby-value str">', '</span>)) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">logger</span>
+216:               <span class="ruby-ivar">@idle_check_status</span> = <span class="ruby-value str">&quot;Checking...&quot;</span>
+217:               
+218:               <span class="ruby-identifier">check_idle</span>
+219:               
+220:               <span class="ruby-ivar">@idle_check_status</span> = <span class="ruby-value str">&quot;Check status: OK. Sleeping now...&quot;</span>
+221:             <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Exception</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+222:               <span class="ruby-ivar">@idle_check_status</span> = <span class="ruby-node">&quot;Check status: Error - #{e.to_s} \n#{e.backtrace.join(&quot;\n&quot;)}. Sleeping...\n&quot;</span>
+223:             <span class="ruby-keyword kw">end</span>
+224:             
+225:             <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-ivar">@idle_check_status</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">logger</span>
+226:             <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@config</span>.<span class="ruby-identifier">idle_check_interval</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span> 
+227:               <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;&gt;&gt; Sleeping (Object ID: #{self.__id__}, Thread ID: #{thread_id}) #{@config.idle_check_interval} seconds ...\n\n&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">logger</span>
+228:               <span class="ruby-identifier">sleep</span> <span class="ruby-ivar">@config</span>.<span class="ruby-identifier">idle_check_interval</span>
+229:             <span class="ruby-keyword kw">else</span>
+230:               <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-value str">&quot;&gt;&gt; Idle check interval is set 0 or less. Thus idle check thread will only be executed once.&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">logger</span>
+231:             <span class="ruby-keyword kw">end</span>
+232:           <span class="ruby-keyword kw">end</span>
+233:         <span class="ruby-keyword kw">end</span>
+234:       }
+235:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000025" class="method-detail">
+        <a name="M000025"></a>
+
+        <div class="method-heading">
+          <a href="#M000025" class="method-signature">
+          <span class="method-name">status_info</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Return a hash of active and idle objects size with pool instance
+configuration options.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000025-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000025-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/common_pool.rb, line 255</span>
+255:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">status_info</span>
+256:       {<span class="ruby-identifier">:active_objects</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@active_list</span>.<span class="ruby-identifier">size</span>,
+257:        <span class="ruby-identifier">:idle_objects</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@idle_list</span>.<span class="ruby-identifier">size</span>,
+258:        <span class="ruby-identifier">:idle_check_status</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@idle_check_status</span>}.<span class="ruby-identifier">merge</span>(<span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">config</span>.<span class="ruby-identifier">to_hash</span>)
+259:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000023" class="method-detail">
+        <a name="M000023"></a>
+
+        <div class="method-heading">
+          <a href="#M000023" class="method-signature">
+          <span class="method-name">stop_idle_check_thread</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Stop idle check thread
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000023-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000023-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/common_pool.rb, line 238</span>
+238:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">stop_idle_check_thread</span>
+239:       <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@idle_check_thread</span> 
+240:         <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-value str">&quot;&gt;&gt; Stopping idle objects check thread ...&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">logger</span>
+241:         <span class="ruby-ivar">@idle_check_status</span> = <span class="ruby-value str">&quot;Stopping...&quot;</span>
+242:         <span class="ruby-ivar">@idle_check_thread</span>.<span class="ruby-identifier">kill</span>
+243:         <span class="ruby-ivar">@idle_check_thread</span> = <span class="ruby-keyword kw">nil</span>
+244:         <span class="ruby-ivar">@idle_check_status</span> = <span class="ruby-value str">&quot;Not Running&quot;</span>
+245:       <span class="ruby-keyword kw">end</span>
+246:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000026" class="method-detail">
+        <a name="M000026"></a>
+
+        <div class="method-heading">
+          <a href="#M000026" class="method-signature">
+          <span class="method-name">valid_idle_object?</span><span class="method-args">(object)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Check if an idle object is valid, return false if
+<tt>validation_timeout</tt> period reached.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000026-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000026-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/common_pool.rb, line 262</span>
+262:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">valid_idle_object?</span>(<span class="ruby-identifier">object</span>)
+263:       <span class="ruby-keyword kw">begin</span>
+264:         <span class="ruby-identifier">timeout</span>(<span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">config</span>.<span class="ruby-identifier">validation_timeout</span>) <span class="ruby-keyword kw">do</span> 
+265:           <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">data_source</span>.<span class="ruby-identifier">valid?</span>(<span class="ruby-identifier">object</span>)
+266:         <span class="ruby-keyword kw">end</span>
+267:       <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">TimeoutError</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+268:         <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Timeout #{@config.validation_timeout} seconds validating object: #{object}&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">logger</span>
+269:         <span class="ruby-keyword kw">false</span>
+270:       <span class="ruby-keyword kw">end</span>
+271:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Protected Instance methods</h3>
+
+      <div id="method-M000029" class="method-detail">
+        <a name="M000029"></a>
+
+        <div class="method-heading">
+          <a href="#M000029" class="method-signature">
+          <span class="method-name">add_to_idle_list</span><span class="method-args">(object)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000029-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000029-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/common_pool.rb, line 283</span>
+283:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add_to_idle_list</span>(<span class="ruby-identifier">object</span>)
+284:       <span class="ruby-ivar">@mutex</span>.<span class="ruby-identifier">synchronize</span> {
+285:         <span class="ruby-keyword kw">if</span> (<span class="ruby-ivar">@config</span>.<span class="ruby-identifier">max_idle</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>) <span class="ruby-keyword kw">and</span> (<span class="ruby-ivar">@idle_list</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-ivar">@config</span>.<span class="ruby-identifier">max_idle</span>)
+286:           <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Not returned, max idle #{@config.max_idle} reached&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">logger</span>
+287:           <span class="ruby-keyword kw">return</span>
+288:         <span class="ruby-keyword kw">end</span>
+289:         
+290:         <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;* Add #{object}&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">logger</span>
+291:         <span class="ruby-ivar">@idle_list</span>.<span class="ruby-identifier">push</span>([<span class="ruby-constant">Time</span>.<span class="ruby-identifier">new</span>, <span class="ruby-identifier">object</span>])
+292:         <span class="ruby-ivar">@cond</span>.<span class="ruby-identifier">signal</span>
+293:       }
+294:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000031" class="method-detail">
+        <a name="M000031"></a>
+
+        <div class="method-heading">
+          <a href="#M000031" class="method-signature">
+          <span class="method-name">check_idle</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000031-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000031-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/common_pool.rb, line 307</span>
+307:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">check_idle</span>
+308:       <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Checking idle objects list size: #{@idle_list.size}, min idle: #{@config.min_idle}&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">logger</span>
+309:       
+310:       <span class="ruby-identifier">counter</span> = <span class="ruby-value">0</span>
+311:       <span class="ruby-identifier">checked_obj</span> = []
+312:       <span class="ruby-ivar">@idle_list</span>.<span class="ruby-identifier">size</span>.<span class="ruby-identifier">times</span> <span class="ruby-keyword kw">do</span> 
+313:         <span class="ruby-keyword kw">break</span> <span class="ruby-keyword kw">if</span> (<span class="ruby-ivar">@config</span>.<span class="ruby-identifier">idle_check_no_per_run</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>) <span class="ruby-keyword kw">and</span> (<span class="ruby-identifier">counter</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-ivar">@config</span>.<span class="ruby-identifier">idle_check_no_per_run</span>)
+314:         
+315:         <span class="ruby-identifier">counter</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
+316:         <span class="ruby-identifier">result</span> = <span class="ruby-ivar">@idle_list</span>.<span class="ruby-identifier">shift</span>
+317:         <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Checking idle object: #{result.join('|')}&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">logger</span>
+318:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">result</span>
+319:           <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">within_max_idle_time?</span>(<span class="ruby-identifier">result</span>[<span class="ruby-value">0</span>]) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">valid_idle_object?</span>(<span class="ruby-identifier">result</span>[<span class="ruby-value">1</span>]))
+320:             <span class="ruby-identifier">checked_obj</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">result</span>)
+321:           <span class="ruby-keyword kw">else</span> 
+322:             <span class="ruby-identifier">invalidate</span>(<span class="ruby-identifier">result</span>[<span class="ruby-value">1</span>])
+323:           <span class="ruby-keyword kw">end</span>
+324:         <span class="ruby-keyword kw">else</span>
+325:           <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-value str">&quot;No more object available.&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">logger</span>
+326:         <span class="ruby-keyword kw">end</span>
+327:       <span class="ruby-keyword kw">end</span>
+328:       
+329:       <span class="ruby-identifier">checked_obj</span>.<span class="ruby-identifier">each</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">result</span><span class="ruby-operator">|</span> <span class="ruby-ivar">@idle_list</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">result</span>)}
+330:       <span class="ruby-identifier">check_min_idle</span>
+331:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000030" class="method-detail">
+        <a name="M000030"></a>
+
+        <div class="method-heading">
+          <a href="#M000030" class="method-signature">
+          <span class="method-name">check_min_idle</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000030-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000030-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/common_pool.rb, line 296</span>
+296:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">check_min_idle</span>
+297:       <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Minimum idle objects: #{@config.min_idle}, current idle size: #{@idle_list.size}&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">logger</span>
+298:       <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">if</span> (<span class="ruby-ivar">@config</span>.<span class="ruby-identifier">min_idle</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">1</span>) <span class="ruby-operator">||</span> (<span class="ruby-ivar">@idle_list</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-ivar">@config</span>.<span class="ruby-identifier">min_idle</span>)
+299:       
+300:       <span class="ruby-identifier">objects_to_create</span> = <span class="ruby-ivar">@config</span>.<span class="ruby-identifier">min_idle</span> <span class="ruby-operator">-</span> <span class="ruby-ivar">@idle_list</span>.<span class="ruby-identifier">size</span>
+301:       <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Creating additional #{objects_to_create} object(s).&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">logger</span>
+302:       <span class="ruby-identifier">objects_to_create</span>.<span class="ruby-identifier">times</span> <span class="ruby-keyword kw">do</span>
+303:         <span class="ruby-identifier">add_to_idle_list</span>(<span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">data_source</span>.<span class="ruby-identifier">create_object</span>)
+304:       <span class="ruby-keyword kw">end</span>
+305:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000028" class="method-detail">
+        <a name="M000028"></a>
+
+        <div class="method-heading">
+          <a href="#M000028" class="method-signature">
+          <span class="method-name">create_with_timestamp</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000028-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000028-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/common_pool.rb, line 279</span>
+279:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create_with_timestamp</span>
+280:       [<span class="ruby-constant">Time</span>.<span class="ruby-identifier">new</span>, <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">data_source</span>.<span class="ruby-identifier">create_object</span>]
+281:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000033" class="method-detail">
+        <a name="M000033"></a>
+
+        <div class="method-heading">
+          <a href="#M000033" class="method-signature">
+          <span class="method-name">idle_check_status=</span><span class="method-args">(s)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000033-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000033-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/common_pool.rb, line 347</span>
+347:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">idle_check_status=</span>(<span class="ruby-identifier">s</span>)
+348:       <span class="ruby-ivar">@config</span>.<span class="ruby-identifier">idle_check_status</span> = <span class="ruby-identifier">s</span>
+349:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000027" class="method-detail">
+        <a name="M000027"></a>
+
+        <div class="method-heading">
+          <a href="#M000027" class="method-signature">
+          <span class="method-name">logger</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000027-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000027-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/common_pool.rb, line 275</span>
+275:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">logger</span>
+276:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">config</span>.<span class="ruby-identifier">logger</span>
+277:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000032" class="method-detail">
+        <a name="M000032"></a>
+
+        <div class="method-heading">
+          <a href="#M000032" class="method-signature">
+          <span class="method-name">within_max_idle_time?</span><span class="method-args">(objtime)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000032-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000032-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/common_pool.rb, line 333</span>
+333:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">within_max_idle_time?</span>(<span class="ruby-identifier">objtime</span>)
+334:       <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">true</span> <span class="ruby-keyword kw">if</span> (<span class="ruby-ivar">@config</span>.<span class="ruby-identifier">max_idle_time</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">0</span>)
+335:       
+336:       <span class="ruby-identifier">seconds_passed</span> = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">objtime</span>
+337:       <span class="ruby-identifier">exceed_time</span> = <span class="ruby-identifier">seconds_passed</span> <span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@config</span>.<span class="ruby-identifier">max_idle_time</span>
+338:       
+339:       <span class="ruby-keyword kw">if</span> (<span class="ruby-ivar">@config</span>.<span class="ruby-identifier">max_idle_time</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span>) <span class="ruby-operator">||</span> (<span class="ruby-identifier">exceed_time</span>)
+340:         <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Idle for #{seconds_passed} seconds, exceeded #{seconds_passed - @config.max_idle_time} seconds&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">logger</span>
+341:         <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">false</span>
+342:       <span class="ruby-keyword kw">else</span>
+343:         <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">true</span>
+344:       <span class="ruby-keyword kw">end</span>
+345:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

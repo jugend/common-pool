@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: README</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>README</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>README
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Wed May 16 12:50:32 SGT 2007</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h2>common-pool</h2>
+<p>
+First in first out (FIFO) object pooling mechanism with idle objects
+eviction check, similar with <a
+href="../http:/jakarta.apache.org/commons/pool">Apache Common Pool</a>.
+</p>
+<p>
+It supports the following configuration parameters:
+</p>
+<ul>
+<li>min_idle
+
+</li>
+<li>max_idle
+
+</li>
+<li>max_idle_time
+
+</li>
+<li>max_active
+
+</li>
+<li>timeout
+
+</li>
+<li>validation_timeout
+
+</li>
+<li>idle_check_no_per_run
+
+</li>
+<li>idle_check_interval
+
+</li>
+</ul>
+<p>
+Overwrite <tt><a
+href="../classes/CommonPool/PoolDataSource.html">CommonPool::PoolDataSource</a></tt>
+to create object to be returned to the pool.
+</p>
+<h2>Installation</h2>
+<pre>
+  $ gem install common-pool
+</pre>
+<h2>Example</h2>
+<pre>
+  require 'common_pool'
+
+  # Extend data source object
+  class RandomNumberDataSource &lt; CommonPool::PoolDataSource
+    # Overwrite to return object to be stored in the pool.
+    def create_object
+      rand(1000)
+    end
+
+    # Overwrite to check if idle object in the pool is still valid.
+    def valid?(object)
+      true
+    end
+  end
+
+  # Create a new object pool
+  object_pool = ObjectPool.new(RandomNumberDataSource.new)
+
+  # Borrow object from the pool
+  object = object_pool.borrow_object
+
+  # Return object to the pool
+  object_pool.return_object(object)
+
+  # Or invalidate object and remove it from the pool
+  object_pool.invalidate_object(object)
+
+  # Create object pool with idle objects eviction thread
+  object_pool = ObjectPool.new(RandomNumberDataSource.new) do |config|
+    config.min_idle = 5
+    config.max_idle = 10
+
+    # max 10 idle objects checked per run
+    config.idle_check_no_per_run = 10
+
+    # check idle objects every 10 minutes
+    config.idle_check_interval = 10 * 60
+  end
+
+  # Return a hash of pool instance status variables, i.e.
+  # active and idle lists size, and configuration options
+  object_pool.status_info
+</pre>
+<h2>Links</h2>
+<ul>
+<li><a
+href="http://www.rubyforge.org/projects/common-pool">www.rubyforge.org/projects/common-pool</a>
+
+</li>
+<li><a
+href="http://www.pluitsolutions.com/common-pool">www.pluitsolutions.com/common-pool</a>
+
+</li>
+</ul>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

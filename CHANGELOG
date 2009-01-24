@@ -1,0 +1,7 @@
+*0.3.1* (16th May 2007)
+
+* Return validation_timeout and idle_check_status as part of status_info returned
+
+*0.3.0* (14th May 2007)
+
+* First release
