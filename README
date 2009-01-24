@@ -62,9 +62,11 @@ Overwrite <code>CommonPool::PoolDataSource</code> to create object to be returne
   # Return a hash of pool instance status variables, i.e.
   # active and idle lists size, and configuration options
   object_pool.status_info
-  
+
+== Source Codes
+http://github.com/jugend/common-pool/tree/master
+
 == Links
-* http://www.rubyforge.org/projects/common-pool
 * http://www.pluitsolutions.com/common-pool
   
   
