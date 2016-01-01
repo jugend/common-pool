@@ -1,4 +1,4 @@
-== common-pool
+# common-pool
 
 First in first out (FIFO) object pooling mechanism with idle objects eviction check, similar with {Apache Common Pool}[link:http://jakarta.apache.org/commons/pool/].
 
@@ -14,12 +14,15 @@ It supports the following configuration parameters:
 
 Overwrite <code>CommonPool::PoolDataSource</code> to create object to be returned to the pool.
 
-== Installation
+## Installation
 
+```sh
   $ gem install common-pool
+```
 
-== Example
+## Example
 
+```rb
   require 'common_pool'    
   
   # Extend data source object
@@ -62,11 +65,6 @@ Overwrite <code>CommonPool::PoolDataSource</code> to create object to be returne
   # Return a hash of pool instance status variables, i.e.
   # active and idle lists size, and configuration options
   object_pool.status_info
-
-== Source Codes
-http://github.com/jugend/common-pool/tree/master
-
-== Links
-* http://www.pluitsolutions.com/common-pool
+```
   
   
